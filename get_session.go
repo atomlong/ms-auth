@@ -22,7 +22,7 @@ func (a *AuthStruct) getSession() (err error) {
 	query.Add("cobrandid", hex.NewUUID())
 	query.Add("aadredir", "1")
 	query.Add("nopa", "2")
-	query.Add("wreply", "https://www.bing.com/secure/Passport.aspx?edge_suppress_profile_switch=1&requrl=https%3a%2f%2fwww.bing.com%2f%3fwlexpsignin%3d1&sig=34EFE4ED9C94667A1B55F0D09D9C6732&nopa=2")
+	query.Add("wreply", "https://cn.bing.com/secure/Passport.aspx?edge_suppress_profile_switch=1&requrl=https%3a%2f%2fcn.bing.com%2f%3fwlexpsignin%3d1&sig=34EFE4ED9C94667A1B55F0D09D9C6732&nopa=2")
 
 	bUrl.RawQuery = query.Encode()
 
