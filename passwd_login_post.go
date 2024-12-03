@@ -47,7 +47,7 @@ func (a *AuthStruct) passwdLoginPost1() (err error) {
 		return fmt.Errorf("login post failed, status code: %v", a.reqClient.Result.Status)
 	}
 
-	// fmt.Println(a.reqClient.GetBodyString())
+	fmt.Println(a.reqClient.GetBodyString())
 
 	re := regexp.MustCompile(regUrlPost)
 	a.UrlPost = getValue(re.FindString(a.reqClient.GetBodyString()))
