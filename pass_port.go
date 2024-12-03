@@ -13,18 +13,25 @@ func (a *AuthStruct) passport() (cookie string, err error) {
 	a.reqClient = request.NewRequest().SetUserAgent(USER_AGENT)
 
 	a.reqClient.Get().SetUrl("https://www.bing.com/").Do()
+	if a.reqClient.GetStatusCode() == 302 {
+		a.ActionUrl = strings.ReplaceAll(a.ActionUrl, "https://www.bing.com", a.reqClient.Result.Header.Get("Location"))
+		a.reqClient.Get().SetUrl(a.reqClient.Result.Header.Get("Location")).Do()
+	}
 	if a.reqClient.GetStatusCode() != 200 {
 		return "", fmt.Errorf("passport failed, status code: %v", a.reqClient.Result.Status)
 	}
 
 	postdata := url.Values{}
-	postdata.Add("url", "https://www.bing.com/")
+	postdata.Add("url", a.reqClient.Request.Url)
 	postdata.Add("V", "web")
 
 	a.reqClient.Post().SetUrl("https://www.bing.com/rewardsapp/reportActivity?IG=%s&IID=SERP.5026&&src=hp", strings.ToUpper(strings.ReplaceAll(hex.NewUUID(), "-", ""))).
 		SetContentType("application/x-www-form-urlencoded").
 		SetBody(strings.NewReader(postdata.Encode())).
 		Do()
+	if a.reqClient.GetStatusCode() == 302 {
+		a.reqClient.Get().SetUrl(a.reqClient.Result.Header.Get("Location")).Do()
+	}
 	if a.reqClient.GetStatusCode() != 200 {
 		return "", fmt.Errorf("passport failed, status code: %v", a.reqClient.Result.Status)
 	}
@@ -44,6 +51,9 @@ func (a *AuthStruct) passport() (cookie string, err error) {
 		SetBody(strings.NewReader(postdata.Encode())).
 		Do()
 
+	if a.reqClient.GetStatusCode() == 302 {
+		a.reqClient.Get().SetUrl(a.reqClient.Result.Header.Get("Location")).Do()
+	}
 	if a.reqClient.GetStatusCode() != 200 {
 		return "", fmt.Errorf("passport failed, status code: %v", a.reqClient.Result.Status)
 	}
