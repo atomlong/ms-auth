@@ -40,6 +40,20 @@ func (a *AuthStruct) passwdLoginPost1() (err error) {
 	// 登录账号 => https://login.live.com/ppsecure/post.srf?contextid=
 	a.reqClient.Post().SetUrl("%v", a.UrlPostMsa).
 		SetHeader("Content-Type", "application/x-www-form-urlencoded").
+		SetHeader("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9").
+		// SetHeader("Accept-Encoding", "gzip, deflate, br").
+		SetHeader("Accept-Language", "zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6").
+		SetHeader("Cache-Control", "max-age=0").
+		SetHeader("Connection", "keep-alive").
+		SetHeader("Host", "login.live.com").
+		SetHeader("Origin", "https://login.live.com").
+		SetHeader("Referer", "https://login.live.com/login.srf?contextid=").
+		SetHeader("Sec-Fetch-Dest", "document").
+		SetHeader("Sec-Fetch-Mode", "navigate").
+		SetHeader("Sec-Fetch-Site", "same-origin").
+		SetHeader("Sec-Fetch-User", "?1").
+		SetHeader("Upgrade-Insecure-Requests", "1").
+		SetHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36").
 		SetBody(strings.NewReader(postData.Encode())).
 		Do()
 
